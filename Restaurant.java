@@ -6,6 +6,7 @@ import android.media.Image;
 /**
  * Created by walla on 12/24/2016.
  */
+//test
 
 public class Restaurant {
     private long restaurantID;
