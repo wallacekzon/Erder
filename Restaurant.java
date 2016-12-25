@@ -10,7 +10,7 @@ import android.media.Image;
 public class Restaurant {
     private long restaurantID;
     private String name;
-    private int phone;
+    private String phone;
     private String address;
 
     private RestaurantMenu restaurantMenu;
@@ -20,7 +20,7 @@ public class Restaurant {
     // eventually more such as reviews, ratings, restaurant types, price range, etc.
 
     // constructors
-    public Restaurant(long restaurantID, String name, int phone, String address) {
+    public Restaurant(long restaurantID, String name, String phone, String address) {
         this.restaurantID = restaurantID;
         this.name = name;
         this.phone = phone;
@@ -29,7 +29,7 @@ public class Restaurant {
         this.restaurantMenu = null;
         this.restaurantImage = null;
     }
-    public Restaurant(long restaurantID, String name, int phone, String address,
+    public Restaurant(long restaurantID, String name, String phone, String address,
                       RestaurantMenu restaurantMenu) {
         this.restaurantID = restaurantID;
         this.name = name;
@@ -38,7 +38,7 @@ public class Restaurant {
 
         this.restaurantMenu = restaurantMenu;
     }
-    public Restaurant(long restaurantID, String name, int phone, String address,
+    public Restaurant(long restaurantID, String name, String phone, String address,
                       RestaurantMenu restaurantMenu, Image restaurantImage) {
         this.restaurantID = restaurantID;
         this.name = name;
@@ -58,7 +58,7 @@ public class Restaurant {
     public String getName() {
         return name;
     }
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
     public String getAddress() {
@@ -76,7 +76,7 @@ public class Restaurant {
     public void setName(String name) {
         this.name = name;
     }
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
     public void setAddress(String address) {
