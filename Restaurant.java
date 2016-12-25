@@ -14,7 +14,7 @@ public class Restaurant {
     private String phone;
     private String address;
 
-    private RestaurantMenu restaurantMenu;
+    private RestaurantMenu[] restaurantMenus;
     private Image restaurantImage;
 
 
@@ -27,26 +27,26 @@ public class Restaurant {
         this.phone = phone;
         this.address = address;
 
-        this.restaurantMenu = null;
+        this.restaurantMenus = null;
         this.restaurantImage = null;
     }
     public Restaurant(long restaurantID, String name, String phone, String address,
-                      RestaurantMenu restaurantMenu) {
+                      RestaurantMenu[] restaurantMenus) {
         this.restaurantID = restaurantID;
         this.name = name;
         this.phone = phone;
         this.address = address;
 
-        this.restaurantMenu = restaurantMenu;
+        this.restaurantMenus = restaurantMenus;
     }
     public Restaurant(long restaurantID, String name, String phone, String address,
-                      RestaurantMenu restaurantMenu, Image restaurantImage) {
+                      RestaurantMenu[] restaurantMenus, Image restaurantImage) {
         this.restaurantID = restaurantID;
         this.name = name;
         this.phone = phone;
         this.address = address;
 
-        this.restaurantMenu = restaurantMenu;
+        this.restaurantMenus = restaurantMenus;
         this.restaurantImage = restaurantImage;
     }
 
@@ -66,6 +66,9 @@ public class Restaurant {
         return address;
     }
 
+    public RestaurantMenu[] getRestaurantMenus() {
+        return restaurantMenus;
+    }
     public Image getRestaurantImage() {
         return restaurantImage;
     }
@@ -84,6 +87,9 @@ public class Restaurant {
         this.address = address;
     }
 
+    public void setRestaurantMenus(RestaurantMenu[] restaurantMenus) {
+        this.restaurantMenus = restaurantMenus;
+    }
     public void setRestaurantImage(Image restaurantImage) {
         this.restaurantImage = restaurantImage;
     }
