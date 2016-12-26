@@ -10,6 +10,10 @@ public class RestaurantMenu {
     private MenuCategory[] menuCategories;
 
     // constructors
+    public RestaurantMenu() {
+        this.menuID = 0;
+        this.menuCategories = null;
+    }
     public RestaurantMenu(long menuID) {
         this.menuID = menuID;
         this.menuCategories = null;
@@ -33,5 +37,9 @@ public class RestaurantMenu {
     }
     public void setMenuCategories(MenuCategory[] menuCategories) {
         this.menuCategories = menuCategories;
+    }
+
+    public String toString() {
+        return String.valueOf(menuID);
     }
 }

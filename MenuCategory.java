@@ -43,4 +43,8 @@ public class MenuCategory {
     public void setMenuDishes(MenuDish[] menuDishes) {
         this.menuDishes = menuDishes;
     }
+
+    public String toString() {
+        return new String(categoryID + categoryName);
+    }
 }

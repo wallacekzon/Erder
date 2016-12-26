@@ -61,5 +61,7 @@ public class MenuDish {
     public void setVegetarian(boolean vegetarian) { this.vegetarian = vegetarian; }
     public void setSpicy(boolean spicy) { this.spicy = spicy; }
 
-
+    public String toString() {
+        return new String (dishID + name + price);
+    }
 }

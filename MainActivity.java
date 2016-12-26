@@ -23,19 +23,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.kosalgeek.asynctask.AsyncResponse;
+import com.kosalgeek.asynctask.PostResponseAsyncTask;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AsyncResponse {
+
+    private Restaurant restaurant;
 
     private final int REQUEST_CODE_PLACEPICKER = 1;
     private final int REQUEST_CODE_QRCODE_SCAN_CAMERA = 2;
@@ -70,8 +76,44 @@ public class MainActivity extends AppCompatActivity
 
         // ********************************* start of code ****************************************
         displayCurrentAddress();
+        displayRestaurantAtCurrentLocation();
 
 //        Toast.makeText(MainActivity.this, "end", Toast.LENGTH_SHORT).show();
+    }
+
+    private void displayRestaurantAtCurrentLocation() {
+        Button testButton = (Button) findViewById(R.id.testButton);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                EditText editText = (EditText) findViewById(R.id.enter_current_location);
+                //String currentLocation = editText.getText().toString();
+                String currentLocation = "1815 West 36th Street, Chicago, Illinois, 60609, United States";
+
+                HashMap postData = new HashMap();
+                postData.put("mobile", "android");
+                postData.put("txtAddress", currentLocation);
+
+                PostResponseAsyncTask postResponseAsyncTask = new PostResponseAsyncTask(MainActivity.this, postData);
+                postResponseAsyncTask.execute("http://192.168.1.145/index.php"); // 10.0.2.2 in emulator
+
+                //Toast.makeText(MainActivity.this, currentLocation, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    // this is for Generic AsyncTask
+    @Override
+    public void processFinish(String jsonString) {
+        Toast.makeText(MainActivity.this, jsonString, Toast.LENGTH_LONG).show();
+        restaurant = new Restaurant();
+
+        JsonParser jsonParser = new JsonParser(restaurant, jsonString);
+
+        System.out.println(restaurant.toString());
+
     }
 
     private void displayCurrentAddress() {
@@ -273,4 +315,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, AccountActivity.class);
         startActivityForResult(intent, REQUEST_CODE_ACCOUNT);
     }
+
+
 }

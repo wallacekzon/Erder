@@ -21,6 +21,15 @@ public class Restaurant {
     // eventually more such as reviews, ratings, restaurant types, price range, etc.
 
     // constructors
+    public Restaurant() {
+        this.restaurantID = 0;
+        this.name = null;
+        this.phone = null;
+        this.address = null;
+
+        this.restaurantMenus = null;
+        this.restaurantImage = null;
+    }
     public Restaurant(long restaurantID, String name, String phone, String address) {
         this.restaurantID = restaurantID;
         this.name = name;
@@ -92,5 +101,9 @@ public class Restaurant {
     }
     public void setRestaurantImage(Image restaurantImage) {
         this.restaurantImage = restaurantImage;
+    }
+
+    public String toString() {
+        return new String(restaurantID + name + phone + address);
     }
 }
