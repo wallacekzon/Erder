@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -23,8 +22,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
@@ -34,6 +33,7 @@ import com.kosalgeek.asynctask.AsyncResponse;
 import com.kosalgeek.asynctask.PostResponseAsyncTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity
 
     private final int PERMISSIONS_REQUEST_LOCATION = 4;
 
+    private  MyMenuItemAdapter adapter;
+    private ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,14 +59,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -79,11 +75,29 @@ public class MainActivity extends AppCompatActivity
         displayRestaurantAtCurrentLocation();
 
 //        Toast.makeText(MainActivity.this, "end", Toast.LENGTH_SHORT).show();
+
+        // populate the menu items here
+        final ArrayList<MyMenuItem> menuItems = new ArrayList<>();
+        menuItems.add(new MyMenuItem("Chicken Leg", "Condiments availabe upon request.", 2.49));
+        menuItems.add(new MyMenuItem("8 Piece Chicken", "2 legs, 2 thighs, 2 wings and 2 breasts.", 15.99));
+        menuItems.add(new MyMenuItem("12 Piece Chicken", "3 legs, 3 thighs, 3 wings and 3 breasts.", 22.29));
+        menuItems.add(new MyMenuItem("Chicken Leg", "Condiments availabe upon request.", 2.49));
+        menuItems.add(new MyMenuItem("Chicken Leg", "Condiments availabe upon request.", 2.49));
+        menuItems.add(new MyMenuItem("Chicken Leg", "Condiments availabe upon request.", 2.49));
+        menuItems.add(new MyMenuItem("Chicken Leg", "Condiments availabe upon request.", 2.49));
+        menuItems.add(new MyMenuItem("Chicken Leg", "Condiments availabe upon request.", 2.49));
+
+        adapter = new MyMenuItemAdapter(this, menuItems);
+        listView = (ListView) findViewById(R.id.foodList);
+        listView.setAdapter(adapter);
+
+        Utility.setListViewHeightBasedOnChildren(listView);
+
     }
 
     private void displayRestaurantAtCurrentLocation() {
-        Button testButton = (Button) findViewById(R.id.testButton);
-        testButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -95,8 +109,11 @@ public class MainActivity extends AppCompatActivity
                 postData.put("mobile", "android");
                 postData.put("txtAddress", currentLocation);
 
+                //PostResponseAsyncTask postResponseAsyncTask;
                 PostResponseAsyncTask postResponseAsyncTask = new PostResponseAsyncTask(MainActivity.this, postData);
-                postResponseAsyncTask.execute("http://192.168.1.145/index.php"); // 10.0.2.2 in emulator
+                postResponseAsyncTask.execute("http://10.0.2.2/index.php");     // http://10.0.2.2/index.php in emulator
+                                                                                // http://192.168.1.145/index.php at home
+                                                                                // http://192.168.1.8/index.php at ling's home
 
                 //Toast.makeText(MainActivity.this, currentLocation, Toast.LENGTH_SHORT).show();
             }
@@ -109,6 +126,10 @@ public class MainActivity extends AppCompatActivity
     public void processFinish(String jsonString) {
         Toast.makeText(MainActivity.this, jsonString, Toast.LENGTH_LONG).show();
         restaurant = new Restaurant();
+
+
+
+        //jsonString = " {RestaurantID:1} ";
 
         JsonParser jsonParser = new JsonParser(restaurant, jsonString);
 
